@@ -1,0 +1,29 @@
+<div class="content-wrapper p-3">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <h3 class="card-title mb-0">Meetings</h3>
+      <form class="form-inline" (ngSubmit)="create()">
+        <input [(ngModel)]="form.title" name="title" class="form-control mr-2" placeholder="Title" required>
+        <input [(ngModel)]="form.start" name="start" type="datetime-local" class="form-control mr-2" required>
+        <input [(ngModel)]="form.room_id" name="room_id" type="number" class="form-control mr-2" placeholder="Room ID">
+        <button class="btn btn-primary">Add Meeting</button>
+      </form>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-striped">
+        <thead><tr><th>ID</th><th>Title</th><th>Room</th><th>Start</th><th>Minutes</th><th></th></tr></thead>
+        <tbody>
+          <tr *ngFor="let m of data">
+            <td>{{m.id}}</td><td>{{m.title}}</td><td>{{m.room_id}}</td><td>{{m.start | date:'short'}}</td>
+            <td>{{ m.minutes ? 'Yes' : '—' }}</td>
+            <td class="text-right">
+              <button class="btn btn-sm btn-outline-secondary mr-1" (click)="edit(m)">Edit</button>
+              <button class="btn btn-sm btn-outline-info mr-1" (click)="addMinutes(m)">Add Minutes</button>
+              <button class="btn btn-sm btn-outline-danger" (click)="remove(m.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
