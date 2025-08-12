@@ -9,7 +9,9 @@ import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.compone
 import { EmployeeLayoutComponent } from './layout/employee-layout/employee-layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ContactComponent } from './pages/contact/contact.component';
-
+import { EmployeesComponent } from './pages/employees/employees.component' ;
+import { MeetingsComponent } from './pages/meetings/meetings.component' ;
+import { RoomsComponent } from './pages/rooms/rooms.component' ;
 const routes: Routes = [
   // Public site
   {
@@ -24,12 +26,15 @@ const routes: Routes = [
 
   // Admin area
   {
-    path: 'admin',
-    component: AdminLayoutComponent,
-    children: [
-      { path: 'dashboard', component: DashboardAdminComponent },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-    ]
+      path: 'admin',
+  component: AdminLayoutComponent,
+  children: [
+    { path: 'dashboard', component: DashboardAdminComponent },
+    { path: 'employees', component: EmployeesComponent },
+    { path: 'rooms', component: RoomsComponent },
+    { path: 'meetings', component: MeetingsComponent },
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  ]
   },
 
   // Employee area

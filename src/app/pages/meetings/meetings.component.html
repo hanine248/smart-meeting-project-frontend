@@ -1,29 +1,37 @@
-<div class="content-wrapper p-3">
+<div class="container-fluid">
   <div class="card">
-    <div class="card-header d-flex justify-content-between">
-      <h3 class="card-title mb-0">Meetings</h3>
-      <form class="form-inline" (ngSubmit)="create()">
-        <input [(ngModel)]="form.title" name="title" class="form-control mr-2" placeholder="Title" required>
-        <input [(ngModel)]="form.start" name="start" type="datetime-local" class="form-control mr-2" required>
-        <input [(ngModel)]="form.room_id" name="room_id" type="number" class="form-control mr-2" placeholder="Room ID">
-        <button class="btn btn-primary">Add Meeting</button>
-      </form>
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3 class="card-title mb-0"><i class="fas fa-calendar-check mr-2"></i>Meetings</h3>
+      <button class="btn btn-primary" (click)="openModal()">Add Meeting</button>
     </div>
     <div class="card-body table-responsive">
       <table class="table table-striped">
-        <thead><tr><th>ID</th><th>Title</th><th>Room</th><th>Start</th><th>Minutes</th><th></th></tr></thead>
+        <thead>
+          <tr><th>ID</th><th>Title</th><th>Room</th><th>Start</th><th>Minutes</th><th class="text-right">Actions</th></tr>
+        </thead>
         <tbody>
-          <tr *ngFor="let m of data">
-            <td>{{m.id}}</td><td>{{m.title}}</td><td>{{m.room_id}}</td><td>{{m.start | date:'short'}}</td>
-            <td>{{ m.minutes ? 'Yes' : '—' }}</td>
-            <td class="text-right">
-              <button class="btn btn-sm btn-outline-secondary mr-1" (click)="edit(m)">Edit</button>
-              <button class="btn btn-sm btn-outline-info mr-1" (click)="addMinutes(m)">Add Minutes</button>
-              <button class="btn btn-sm btn-outline-danger" (click)="remove(m.id)">Delete</button>
-            </td>
-          </tr>
+          <tr class="text-muted"><td colspan="6">No meetings yet — API later.</td></tr>
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <div class="modal fade" [class.show]="show" [style.display]="show ? 'block':'none'">
+    <div class="modal-dialog">
+      <form class="modal-content" (ngSubmit)="closeModal()">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Meeting</h5>
+          <button type="button" class="close" (click)="closeModal()"><span>&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group"><label>Title</label><input class="form-control"></div>
+          <div class="form-group"><label>Room ID</label><input type="number" class="form-control"></div>
+          <div class="form-group"><label>Start</label><input type="datetime-local" class="form-control"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Save</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
