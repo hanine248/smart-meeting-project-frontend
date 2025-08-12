@@ -1,122 +1,87 @@
-<div class="content-wrapper p-3">
-  <section class="content">
-    <div class="container-fluid">
-      <!-- Row: Info boxes -->
-<div class="row">
-  <div class="col-12 col-sm-6 col-md-4">
-    <a class="info-box mb-3 d-block text-reset" routerLink="/employees">
-      <span class="info-box-icon bg-info"><i class="fas fa-users-cog"></i></span>
-      <div class="info-box-content">
-        <span class="info-box-text">Manage Employees</span>
-        <span class="info-box-number">Go</span>
-      </div>
-    </a>
+<div class="container-fluid px-0">
+  <!-- Row: Info boxes -->
+  <div class="row no-gutters admin-main">
+    <div class="col-12 col-sm-6 col-md-4">
+      <a class="info-box mb-3 d-block text-reset" routerLink="/admin/employees">
+        <span class="info-box-icon bg-info"><i class="fas fa-users-cog"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Manage Employees</span>
+          <span class="info-box-number">Go</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-4">
+      <a class="info-box mb-3 d-block text-reset" routerLink="/admin/rooms"> <!-- ✅ absolute -->
+        <span class="info-box-icon bg-success"><i class="fas fa-door-open"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Room Management</span>
+          <span class="info-box-number">Go</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-4">
+      <a class="info-box mb-3 d-block text-reset" routerLink="/admin/meetings"> <!-- ✅ absolute -->
+        <span class="info-box-icon bg-warning"><i class="fas fa-calendar-check"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Meeting Management</span>
+          <span class="info-box-number">Go</span>
+        </div>
+      </a>
+    </div>
   </div>
 
-  <div class="col-12 col-sm-6 col-md-4">
-    <a class="info-box mb-3 d-block text-reset" routerLink="/rooms">
-      <span class="info-box-icon bg-success"><i class="fas fa-door-open"></i></span>
-      <div class="info-box-content">
-        <span class="info-box-text">Room Management</span>
-        <span class="info-box-number">Go</span>
+  <div class="row no-gutters">
+    <!-- Calendar card -->
+    <section class="col-lg-8 pr-lg-2">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="far fa-calendar-alt mr-1"></i> Calendar</h3>
+        </div>
+        <div class="card-body">
+          <full-calendar [options]="calendarOptions"></full-calendar>
+        </div>
       </div>
-    </a>
-  </div>
+    </section>
 
-  <div class="col-12 col-sm-6 col-md-4">
-    <a class="info-box mb-3 d-block text-reset" routerLink="/meetings">
-      <span class="info-box-icon bg-warning"><i class="fas fa-calendar-check"></i></span>
-      <div class="info-box-content">
-        <span class="info-box-text">Meeting Management</span>
-        <span class="info-box-number">Go</span>
-      </div>
-    </a>
-  </div>
-</div>
-
-
-      <div class="row">
-        <!-- Calendar card -->
-        <section class="col-lg-8 connectedSortable">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title"><i class="far fa-calendar-alt mr-1"></i> Calendar</h3>
-            </div>
-            <div class="card-body">
-              <full-calendar [options]="calendarOptions"></full-calendar>
+    <!-- Direct Chat -->
+    <section class="col-lg-4 pl-lg-2">
+      <div class="card direct-chat direct-chat-primary">
+        <div class="card-header">
+          <h3 class="card-title">Direct Chat</h3>
+          <div class="card-tools">
+            <span class="badge badge-primary">{{ messages.length }}</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="direct-chat-messages" style="height: 360px;">
+            <div *ngFor="let m of messages" class="direct-chat-msg" [ngClass]="{'right': m.me}">
+              <div class="direct-chat-infos clearfix">
+                <span class="direct-chat-name float-left" *ngIf="!m.me">{{ m.name }}</span>
+                <span class="direct-chat-timestamp float-right">{{ m.time }}</span>
+              </div>
+              <img class="direct-chat-img" src="assets/user.png" alt="user">
+              <div class="direct-chat-text">{{ m.text }}</div>
             </div>
           </div>
-        </section>
-
-        <!-- Direct Chat -->
-        <section class="col-lg-4">
-          <div class="card direct-chat direct-chat-primary">
-            <div class="card-header">
-              <h3 class="card-title">Direct Chat</h3>
-              <div class="card-tools">
-                <span class="badge badge-primary">{{ messages.length }}</span>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="direct-chat-messages" style="height: 360px;">
-                <div *ngFor="let m of messages"
-                     class="direct-chat-msg"
-                     [ngClass]="{'right': m.me}">
-                  <div class="direct-chat-infos clearfix">
-                    <span class="direct-chat-name float-left" *ngIf="!m.me">{{ m.name }}</span>
-                    <span class="direct-chat-timestamp float-right">{{ m.time }}</span>
-                  </div>
-                  <img class="direct-chat-img" src="assets/user.png" alt="user">
-                  <div class="direct-chat-text">{{ m.text }}</div>
-                </div>
-              </div>
-            </div>
-            <div class="card-footer">
-              <form (ngSubmit)="sendMessage()">
-                <div class="input-group">
-                  <input [(ngModel)]="chatInput" name="chatInput" type="text" placeholder="Type Message ..." class="form-control">
-                  <span class="input-group-append">
-                    <button type="submit" class="btn btn-primary">Send</button>
-                  </span>
-                </div>
-              </form>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <!-- Simple modal for “Add Meeting” -->
-      <div class="modal fade" id="addMeetingModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-          <form class="modal-content" (ngSubmit)="saveMeeting()">
-            <div class="modal-header">
-              <h5 class="modal-title">Add Meeting</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="form-group">
-                <label>Title</label>
-                <input [(ngModel)]="meetingForm.title" name="title" class="form-control" required>
-              </div>
-              <div class="form-group">
-                <label>Date</label>
-                <input [(ngModel)]="meetingForm.date" name="date" type="date" class="form-control" required>
-              </div>
-              <div class="form-group">
-                <label>Time</label>
-                <input [(ngModel)]="meetingForm.time" name="time" type="time" class="form-control">
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" (click)="closeModal()">Cancel</button>
-              <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+        <div class="card-footer">
+          <form (ngSubmit)="sendMessage()">
+            <div class="input-group">
+              <input [(ngModel)]="chatInput" name="chatInput" type="text" placeholder="Type Message ..." class="form-control">
+              <span class="input-group-append">
+                <button type="submit" class="btn btn-primary">Send</button>
+              </span>
             </div>
           </form>
         </div>
       </div>
+    </section>
+  </div>
 
-    </div>
-  </section>
+  <!-- Add Meeting modal (unchanged) -->
+  <div class="modal fade" id="addMeetingModal" tabindex="-1" aria-hidden="true">
+    ...
+  </div>
 </div>

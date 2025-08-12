@@ -9,6 +9,11 @@ import { LoginComponent } from './pages/login/login.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
 import { DashboardGuestComponent } from './pages/dashboard-guest/dashboard-guest.component';
 import { DashboardEmployeeComponent } from './pages/dashboard-employee/dashboard-employee.component';
+import { PublicLayoutComponent } from './layout/public-layout/public-layout.component';
+import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.component';
+import { EmployeeLayoutComponent } from './layout/employee-layout/employee-layout.component';
+import { HomeComponent } from './pages/home/home.component';
+import { ContactComponent } from './pages/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +22,11 @@ import { DashboardEmployeeComponent } from './pages/dashboard-employee/dashboard
     DashboardAdminComponent,
     DashboardGuestComponent,
     DashboardEmployeeComponent,
+    PublicLayoutComponent,
+    AdminLayoutComponent,
+    EmployeeLayoutComponent,
+    HomeComponent,
+    ContactComponent,
  
   ],
   imports: [

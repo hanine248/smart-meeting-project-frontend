@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+/* In sidebar layout, remove the default inner padding next to the sidebar */
+body.sidebar-mini:not(.layout-top-nav) .content-wrapper > .content {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Safety: if a Bootstrap container sits at the top of content, strip its padding */
+body.sidebar-mini .content-wrapper .container-fluid {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Optional: keep a tiny spacing between the two columns (desktop only) */
+@media (min-width: 992px) {
+  .admin-main .col-lg-9 { padding-right: .5rem !important; }
+  .admin-main .col-lg-3 { padding-left:  .5rem !important; }
+}
