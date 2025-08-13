@@ -14,6 +14,8 @@ import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.compone
 import { EmployeeLayoutComponent } from './layout/employee-layout/employee-layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ContactComponent } from './pages/contact/contact.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,12 +32,13 @@ import { ContactComponent } from './pages/contact/contact.component';
  
   ],
   imports: [
+    HttpClientModule ,
     BrowserModule,
     AppRoutingModule,
     FormsModule,        // ✅ Add this so [(ngModel)] works in chat + modal forms
     FullCalendarModule  // ✅ Add this so <full-calendar> works
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

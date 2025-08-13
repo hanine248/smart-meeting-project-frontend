@@ -12,6 +12,8 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { EmployeesComponent } from './pages/employees/employees.component' ;
 import { MeetingsComponent } from './pages/meetings/meetings.component' ;
 import { RoomsComponent } from './pages/rooms/rooms.component' ;
+import { AuthGuard } from './core/guards/auth.guard';
+import { RoleGuard } from './core/guards/role.guard';
 const routes: Routes = [
   // Public site
   {
@@ -25,9 +27,11 @@ const routes: Routes = [
   },
 
   // Admin area
-  {
-      path: 'admin',
+{
+  path: 'admin',
   component: AdminLayoutComponent,
+  canActivate: [AuthGuard, RoleGuard],
+  data: { adminOnly: true },          // only admins
   children: [
     { path: 'dashboard', component: DashboardAdminComponent },
     { path: 'employees', component: EmployeesComponent },
@@ -35,17 +39,19 @@ const routes: Routes = [
     { path: 'meetings', component: MeetingsComponent },
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   ]
-  },
+},
+{
+  path: 'emp',
+  component: EmployeeLayoutComponent,
+  canActivate: [AuthGuard, RoleGuard],
+  data: { roles: [2, 3, 'employee', 'guest'] },   // adjust to your role model
+  children: [
+    { path: 'dashboard', component: DashboardEmployeeComponent },
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  ]
+},
 
-  // Employee area
-  {
-    path: 'emp',
-    component: EmployeeLayoutComponent,
-    children: [
-      { path: 'dashboard', component: DashboardEmployeeComponent },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-    ]
-  },
+
 
   { path: '**', redirectTo: '' }
 ];
