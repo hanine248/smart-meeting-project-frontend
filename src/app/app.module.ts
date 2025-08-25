@@ -16,6 +16,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { ProfileEditComponent } from './pages/profile-edit/profile-edit.component';
+import { EmployeeFormComponent } from './pages/employee-form/employee-form.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     EmployeeLayoutComponent,
     HomeComponent,
     ContactComponent,
+    ProfileEditComponent,
+    EmployeeFormComponent,
  
   ],
   imports: [
