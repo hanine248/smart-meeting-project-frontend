@@ -1,7 +1,9 @@
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'; // ✅ Add this
-import { FullCalendarModule } from '@fullcalendar/angular'; // ✅ Add this
+import { FormsModule } from '@angular/forms'; 
+import { FullCalendarModule } from '@fullcalendar/angular'; 
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +21,9 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ProfileEditComponent } from './pages/profile-edit/profile-edit.component';
 import { EmployeeFormComponent } from './pages/employee-form/employee-form.component';
 
+// ✅ Import EmployeeComponent
+import { EmployeesComponent } from './pages/employees/employees.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,14 +38,18 @@ import { EmployeeFormComponent } from './pages/employee-form/employee-form.compo
     ContactComponent,
     ProfileEditComponent,
     EmployeeFormComponent,
- 
+
+    // ✅ Add EmployeeComponent here
+    EmployeesComponent
   ],
   imports: [
-    HttpClientModule ,
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
-    FormsModule,        // ✅ Add this so [(ngModel)] works in chat + modal forms
-    FullCalendarModule  // ✅ Add this so <full-calendar> works
+    RouterModule, 
+    CommonModule,
+    FormsModule,        
+    FullCalendarModule  
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

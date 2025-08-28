@@ -15,7 +15,7 @@ import { RoomsComponent } from './pages/rooms/rooms.component' ;
 import { AuthGuard } from './core/guards/auth.guard';
 import { RoleGuard } from './core/guards/role.guard';
 import { ProfileEditComponent } from './pages/profile-edit/profile-edit.component';
-
+import { EmployeeFormComponent } from './pages/employee-form/employee-form.component';
 
 const routes: Routes = [
   // Public site
@@ -40,8 +40,12 @@ const routes: Routes = [
     { path: 'employees', component: EmployeesComponent },
     { path: 'rooms', component: RoomsComponent },
     { path: 'meetings', component: MeetingsComponent },
-    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'profile', component: ProfileEditComponent },
+    { path: 'employees/add', component: EmployeeFormComponent },
+    { path: 'employees/edit/:id', component: EmployeeFormComponent },
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+
+
   ]
 },
 {
@@ -62,7 +66,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}
