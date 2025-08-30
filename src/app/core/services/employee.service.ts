@@ -1,44 +1,49 @@
+// src/app/core/services/employee.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 export interface Employee {
   id: number;
   name: string;
   email: string;
   role_id: number;
-  role?: {
-    id: number;
-    name: string;
-  };
+  // optional: role?: string;
 }
 
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class EmployeeService {
-  private apiUrl = 'http://127.0.0.1:8000/api/users'; // ✅ change to your backend users API
+  private usersUrl = '/api/users';
+  private registerUrl = '/api/register';
 
   constructor(private http: HttpClient) {}
 
   getEmployees(): Observable<Employee[]> {
-    return this.http.get<Employee[]>(this.apiUrl);
+    return this.http.get<Employee[]>(this.usersUrl);
   }
 
   getEmployee(id: number): Observable<Employee> {
-    return this.http.get<Employee>(`${this.apiUrl}/${id}`);
+    return this.http.get<Employee>(`${this.usersUrl}/${id}`);
   }
 
-  addEmployee(employee: Employee): Observable<Employee> {
-    return this.http.post<Employee>(this.apiUrl, employee);
-  }
+  // ADD via /register — return only the created user, ignore token
+ // ADD via /users — only returns the created user
+addEmployee(payload: {
+  name: string;
+  email: string;
+  password: string;
+  role_id: number;
+}): Observable<Employee> {
+  return this.http.post<Employee>(this.usersUrl, payload);
+}
 
-  updateEmployee(id: number, employee: Employee): Observable<Employee> {
-    return this.http.put<Employee>(`${this.apiUrl}/${id}`, employee);
+
+  // EDIT via /users/:id
+  updateEmployee(id: number, payload: Partial<Employee> & { password?: string }): Observable<Employee> {
+    return this.http.put<Employee>(`${this.usersUrl}/${id}`, payload);
   }
 
   deleteEmployee(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.usersUrl}/${id}`);
   }
 }

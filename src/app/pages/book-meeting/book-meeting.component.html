@@ -1,0 +1,26 @@
+<div class="container">
+  <h2>Book a Meeting</h2>
+  <form (ngSubmit)="bookMeeting()">
+    <label>Title:</label>
+    <input type="text" [(ngModel)]="meeting.title" name="title" required />
+
+    <label>Description:</label>
+    <textarea [(ngModel)]="meeting.description" name="description"></textarea>
+
+    <label>Target Audience:</label>
+    <input type="text" [(ngModel)]="meeting.target_audience" name="target_audience" />
+
+    <label>Date:</label>
+    <input type="datetime-local" [(ngModel)]="meeting.date" name="date" required />
+
+    <label>Duration (minutes):</label>
+    <input type="number" [(ngModel)]="meeting.duration" name="duration" required />
+
+    <label>Room:</label>
+    <select [(ngModel)]="meeting.room_id" name="room_id" required>
+      <option *ngFor="let room of rooms" [value]="room.id">{{ room.name }}</option>
+    </select>
+
+    <button type="submit">Book Meeting</button>
+  </form>
+</div>

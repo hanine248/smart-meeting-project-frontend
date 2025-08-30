@@ -1,59 +1,74 @@
-<div class="container-fluid">
-  <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <h3 class="card-title mb-0"><i class="fas fa-door-open mr-2"></i>Rooms</h3>
-      <div>
-        <button class="btn btn-success mr-2" (click)="openRoom()">Add Room</button>
-        <button class="btn btn-outline-primary" (click)="openMeeting()">Add Meeting</button>
+<div class="container mt-4">
+  <h2>Rooms</h2>
+
+  <!-- Add Room Form -->
+  <div class="card p-3 mb-4">
+    <h5>Add Room</h5>
+    <form (ngSubmit)="addRoom()">
+      <div class="row mb-2">
+        <div class="col">
+          <input type="text" class="form-control" placeholder="Status" [(ngModel)]="newRoom.status" name="status" required>
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" placeholder="Location" [(ngModel)]="newRoom.location" name="location" required>
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" placeholder="Feature" [(ngModel)]="newRoom.feature" name="feature">
+        </div>
+        <div class="col">
+          <input type="number" class="form-control" placeholder="Capacity" [(ngModel)]="newRoom.capacity" name="capacity" required>
+        </div>
+        <div class="col">
+          <button type="submit" class="btn btn-success">Add</button>
+        </div>
       </div>
-    </div>
-    <div class="card-body table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr><th>ID</th><th>Name</th><th>Capacity</th><th>Availability</th><th class="text-right">Actions</th></tr>
-        </thead>
-        <tbody>
-          <tr class="text-muted"><td colspan="5">No rooms yet — API later.</td></tr>
-        </tbody>
-      </table>
-    </div>
+    </form>
   </div>
 
-  <!-- Add Room Modal -->
-  <div class="modal fade" [class.show]="showRoom" [style.display]="showRoom ? 'block':'none'">
-    <div class="modal-dialog">
-      <form class="modal-content" (ngSubmit)="closeRoom()">
-        <div class="modal-header">
-          <h5 class="modal-title">Add Room</h5>
-          <button type="button" class="close" (click)="closeRoom()"><span>&times;</span></button>
+  <!-- Rooms Table -->
+ <table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Status</th>
+      <th>Location</th>
+      <th>Feature</th>
+      <th>Capacity</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let room of rooms">
+      <td>{{ room.id }}</td>
+      <td>
+        <span *ngIf="editingRoom?.id !== room.id">{{ room.status }}</span>
+        <input *ngIf="editingRoom?.id === room.id" [(ngModel)]="editingRoom!.status" class="form-control">
+      </td>
+      <td>
+        <span *ngIf="editingRoom?.id !== room.id">{{ room.location }}</span>
+        <input *ngIf="editingRoom?.id === room.id" [(ngModel)]="editingRoom!.location" class="form-control">
+      </td>
+      <td>
+        <span *ngIf="editingRoom?.id !== room.id">{{ room.feature }}</span>
+        <input *ngIf="editingRoom?.id === room.id" [(ngModel)]="editingRoom!.feature" class="form-control">
+      </td>
+      <td>
+        <span *ngIf="editingRoom?.id !== room.id">{{ room.capacity }}</span>
+        <input *ngIf="editingRoom?.id === room.id" [(ngModel)]="editingRoom!.capacity" class="form-control">
+      </td>
+      <td>
+        <div *ngIf="editingRoom?.id !== room.id">
+          <button class="btn btn-primary btn-sm" (click)="editRoom(room)">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteRoom(room.id)">Delete</button>
+          <button class="btn btn-warning btn-sm" (click)="bookRoom(room)">Book</button>
         </div>
-        <div class="modal-body">
-          <div class="form-group"><label>Name</label><input class="form-control"></div>
-          <div class="form-group"><label>Capacity</label><input type="number" class="form-control"></div>
+        <div *ngIf="editingRoom?.id === room.id">
+          <button class="btn btn-success btn-sm" (click)="updateRoom()">Save</button>
+          <button class="btn btn-secondary btn-sm" (click)="editingRoom = null">Cancel</button>
         </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary">Save</button>
-        </div>
-      </form>
-    </div>
-  </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-  <!-- Add Meeting Modal -->
-  <div class="modal fade" [class.show]="showMeeting" [style.display]="showMeeting ? 'block':'none'">
-    <div class="modal-dialog">
-      <form class="modal-content" (ngSubmit)="closeMeeting()">
-        <div class="modal-header">
-          <h5 class="modal-title">Add Meeting to Room</h5>
-          <button type="button" class="close" (click)="closeMeeting()"><span>&times;</span></button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group"><label>Title</label><input class="form-control"></div>
-          <div class="form-group"><label>Date/Time</label><input type="datetime-local" class="form-control"></div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary">Save</button>
-        </div>
-      </form>
-    </div>
-  </div>
 </div>

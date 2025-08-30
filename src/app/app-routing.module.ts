@@ -55,7 +55,10 @@ const routes: Routes = [
   data: { roles: [2, 3, 'employee', 'guest'] },   // adjust to your role model
   children: [
     { path: 'dashboard', component: DashboardEmployeeComponent },
-    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+   
+   { path: 'employee-form', component: EmployeeFormComponent },         // Add employee
+  { path: 'employee-form/:id', component: EmployeeFormComponent },
+     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   ]
 },
 

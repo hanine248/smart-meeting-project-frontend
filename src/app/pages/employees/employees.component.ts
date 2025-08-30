@@ -36,13 +36,15 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-  addEmployee(): void {
-    this.router.navigate(['/employee-form']); // go to add form
-  }
+// src/app/pages/employees/employees.component.ts
+addEmployee(): void {
+  this.router.navigate(['/admin/employees/add']);
+}
 
-  editEmployee(emp: Employee): void {
-    this.router.navigate(['/employee-form', emp.id]); // go to edit form
-  }
+editEmployee(emp: Employee): void {
+  this.router.navigate(['/admin/employees/edit', emp.id]);
+}
+
 
   deleteEmployee(id: number): void {
     if (confirm('Are you sure you want to delete this employee?')) {

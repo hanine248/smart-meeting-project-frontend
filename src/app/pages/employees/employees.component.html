@@ -1,13 +1,12 @@
+<!-- src/app/pages/employees/employees.component.html -->
 <div class="content-wrapper">
   <section class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>Employees</h1>
-        </div>
+        <div class="col-sm-6"><h1>Employees</h1></div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
             <li class="breadcrumb-item active">Employees</li>
           </ol>
         </div>
@@ -20,7 +19,7 @@
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h3 class="card-title">Employee List</h3>
-          <button class="btn btn-primary btn-sm" (click)="addEmployee()">
+          <button class="btn btn-primary" (click)="addEmployee()">
             <i class="fas fa-plus"></i> Add Employee
           </button>
         </div>
@@ -29,11 +28,11 @@
           <table class="table table-hover text-nowrap">
             <thead>
               <tr>
-                <th>ID</th>
+                <th style="width:80px">ID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Role</th>
-                <th style="width: 150px;">Actions</th>
+                <th style="width:120px">Role</th>
+                <th style="width:180px">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -41,9 +40,9 @@
                 <td>{{ emp.id }}</td>
                 <td>{{ emp.name }}</td>
                 <td>{{ emp.email }}</td>
-                <td>{{ emp.role_id }}</td>
+                <td>{{ emp.role_id === 1 ? 'admin' : 'employee' }}</td>
                 <td>
-                  <button class="btn btn-info btn-sm mr-1" (click)="editEmployee(emp)">
+                  <button class="btn btn-warning btn-sm mr-1" (click)="editEmployee(emp)">
                     <i class="fas fa-edit"></i> Edit
                   </button>
                   <button class="btn btn-danger btn-sm" (click)="deleteEmployee(emp.id)">
@@ -57,6 +56,7 @@
             </tbody>
           </table>
         </div>
+
       </div>
     </div>
   </section>

@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'; 
 import { FullCalendarModule } from '@fullcalendar/angular'; 
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -20,6 +20,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ProfileEditComponent } from './pages/profile-edit/profile-edit.component';
 import { EmployeeFormComponent } from './pages/employee-form/employee-form.component';
+import { RoomsComponent } from './pages/rooms/rooms.component';
 
 // ✅ Import EmployeeComponent
 import { EmployeesComponent } from './pages/employees/employees.component';
@@ -34,6 +35,7 @@ import { EmployeesComponent } from './pages/employees/employees.component';
     PublicLayoutComponent,
     AdminLayoutComponent,
     EmployeeLayoutComponent,
+    RoomsComponent,
     HomeComponent,
     ContactComponent,
     ProfileEditComponent,
@@ -47,6 +49,7 @@ import { EmployeesComponent } from './pages/employees/employees.component';
     BrowserModule,
     AppRoutingModule,
     RouterModule, 
+    ReactiveFormsModule, 
     CommonModule,
     FormsModule,        
     FullCalendarModule  
