@@ -1,26 +1,20 @@
-<div class="container">
-  <h2>Book a Meeting</h2>
-  <form (ngSubmit)="bookMeeting()">
-    <label>Title:</label>
-    <input type="text" [(ngModel)]="meeting.title" name="title" required />
+<h2>Book Meeting</h2>
 
-    <label>Description:</label>
-    <textarea [(ngModel)]="meeting.description" name="description"></textarea>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <label>Title:</label>
+  <input type="text" formControlName="title" class="form-control" required />
 
-    <label>Target Audience:</label>
-    <input type="text" [(ngModel)]="meeting.target_audience" name="target_audience" />
+  <label>Description:</label>
+  <textarea formControlName="description" class="form-control"></textarea>
 
-    <label>Date:</label>
-    <input type="datetime-local" [(ngModel)]="meeting.date" name="date" required />
+  <label>Target Audience:</label>
+  <input type="text" formControlName="target_audience" class="form-control" />
 
-    <label>Duration (minutes):</label>
-    <input type="number" [(ngModel)]="meeting.duration" name="duration" required />
+  <label>Date:</label>
+  <input type="date" formControlName="date" class="form-control" required />
 
-    <label>Room:</label>
-    <select [(ngModel)]="meeting.room_id" name="room_id" required>
-      <option *ngFor="let room of rooms" [value]="room.id">{{ room.name }}</option>
-    </select>
+  <label>Duration (minutes):</label>
+  <input type="number" formControlName="duration" class="form-control" required />
 
-    <button type="submit">Book Meeting</button>
-  </form>
-</div>
+  <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Book</button>
+</form>

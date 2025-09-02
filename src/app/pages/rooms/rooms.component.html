@@ -58,9 +58,14 @@
       </td>
       <td>
         <div *ngIf="editingRoom?.id !== room.id">
-          <button class="btn btn-primary btn-sm" (click)="editRoom(room)">Edit</button>
-          <button class="btn btn-danger btn-sm" (click)="deleteRoom(room.id)">Delete</button>
-          <button class="btn btn-warning btn-sm" (click)="bookRoom(room)">Book</button>
+          <!-- <button class="btn btn-primary btn-sm" (click)="editRoom(room)">Edit</button> 
+           <button class="btn btn-danger btn-sm" (click)="deleteRoom(room.id)">Delete</button> --> 
+          <td>
+  <button (click)="bookRoom(room.id)">Book</button>
+  <button (click)="editRoom(room)">Edit</button>
+  <button (click)="deleteRoom(room.id)">Delete</button>
+</td>
+
         </div>
         <div *ngIf="editingRoom?.id === room.id">
           <button class="btn btn-success btn-sm" (click)="updateRoom()">Save</button>

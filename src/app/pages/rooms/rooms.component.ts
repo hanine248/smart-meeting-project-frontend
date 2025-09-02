@@ -52,9 +52,11 @@ export class RoomsComponent implements OnInit {
     }
   }
 
-  bookRoom(room: Room): void {
-    this.router.navigate(['/book-room', room.id]);
-  }
+bookRoom(roomId: number) {
+this.router.navigate(['admin/book-meeting', roomId]);
+
+
+}
 }
 
 

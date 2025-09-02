@@ -21,10 +21,10 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ProfileEditComponent } from './pages/profile-edit/profile-edit.component';
 import { EmployeeFormComponent } from './pages/employee-form/employee-form.component';
 import { RoomsComponent } from './pages/rooms/rooms.component';
-
+import { BookMeetingComponent } from './pages/book-meeting/book-meeting.component';
 // ✅ Import EmployeeComponent
 import { EmployeesComponent } from './pages/employees/employees.component';
-
+import { MeetingsComponent } from './pages/meetings/meetings.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +40,8 @@ import { EmployeesComponent } from './pages/employees/employees.component';
     ContactComponent,
     ProfileEditComponent,
     EmployeeFormComponent,
-
+    BookMeetingComponent,
+    MeetingsComponent ,
     // ✅ Add EmployeeComponent here
     EmployeesComponent
   ],
