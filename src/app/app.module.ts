@@ -25,6 +25,7 @@ import { BookMeetingComponent } from './pages/book-meeting/book-meeting.componen
 // ✅ Import EmployeeComponent
 import { EmployeesComponent } from './pages/employees/employees.component';
 import { MeetingsComponent } from './pages/meetings/meetings.component';
+import {ViewMinutesComponent} from './pages/view-minutes/view-minutes.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +43,7 @@ import { MeetingsComponent } from './pages/meetings/meetings.component';
     EmployeeFormComponent,
     BookMeetingComponent,
     MeetingsComponent ,
+    ViewMinutesComponent,
     // ✅ Add EmployeeComponent here
     EmployeesComponent
   ],

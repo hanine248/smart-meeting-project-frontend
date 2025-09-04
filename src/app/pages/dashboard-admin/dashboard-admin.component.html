@@ -81,7 +81,44 @@
   </div>
 
   <!-- Add Meeting modal (unchanged) -->
-  <div class="modal fade" id="addMeetingModal" tabindex="-1" aria-hidden="true">
-    ...
+<div class="modal fade" id="addMeetingModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Meeting</h5>
+        <button type="button" class="close" (click)="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Title</label>
+            <input [(ngModel)]="meetingForm.title" name="title" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input [(ngModel)]="meetingForm.date" name="date" type="date" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Time</label>
+            <input [(ngModel)]="meetingForm.time" name="time" type="time" class="form-control">
+          </div>
+          <div class="form-group">
+             <label>Duration (minutes)</label>
+              <input [(ngModel)]="meetingForm.duration" name="duration" type="number" class="form-control" min="15" max="480">
+          </div>
+
+          <div class="form-group">
+            <label>Room ID</label>
+            <input [(ngModel)]="meetingForm.room_id" name="room_id" type="number" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+        <button class="btn btn-primary" (click)="saveMeeting()">Save</button>
+      </div>
+    </div>
   </div>
+</div>
+
 </div>

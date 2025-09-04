@@ -3,6 +3,8 @@ import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import { MeetingService, CreateMeetingDto } from '../../core/services/meeting.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard-admin',
@@ -10,7 +12,6 @@ import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
   styleUrls: ['./dashboard-admin.component.css']
 })
 export class DashboardAdminComponent {
-  // Info boxes data (customize values/icons)
   infoBoxes = [
     { title: 'New Orders', value: 150, icon: 'fas fa-shopping-bag', bg: 'bg-info' },
     { title: 'Bounce Rate', value: '53%', icon: 'fas fa-chart-line', bg: 'bg-success' },
@@ -18,20 +19,17 @@ export class DashboardAdminComponent {
     { title: 'Unique Visitors', value: 65, icon: 'fas fa-chart-pie', bg: 'bg-danger' },
   ];
 
-  // Chat data
   messages = [
     { name: 'Alexander Pierce', time: 'Today 2:00 pm', text: "Is this template really free?", me: false },
     { name: 'Me', time: 'Today 2:05 pm', text: "You better believe it!", me: true }
   ];
   chatInput = '';
 
-  // Calendar state
-  events: any[] = [
-    { title: 'Standup', start: new Date().toISOString().slice(0,10) }
-  ];
-
-  meetingForm = { title: '', date: '', time: '' };
+  events: any[] = [];
+  meetingForm = { title: '', date: '', time: '', room_id: '', duration: '' };
   private pendingDate: string | null = null;
+
+  currentUserId: number | null = null;  // ✅ store logged-in user id
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -39,9 +37,73 @@ export class DashboardAdminComponent {
     height: 520,
     events: this.events,
     dateClick: (arg: DateClickArg) => this.onDateClick(arg),
+    eventClick: (info) => this.onEventClick(info)
   };
 
-  // Chat
+  constructor(
+    private meetingService: MeetingService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    // ✅ Subscribe once to currentUser$
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUserId = user?.id || null;
+    });
+
+    this.loadMeetings();
+  }
+
+  loadMeetings() {
+    this.meetingService.getMeetings().subscribe((data: any[]) => {
+      this.events = data.map(m => ({
+        id: m.id,
+        title: `Meeting ${m.id} (Room ${m.room_id})`,
+        start: m.date,
+        backgroundColor: 'red',
+        borderColor: 'darkred'
+      }));
+      this.calendarOptions = { ...this.calendarOptions, events: this.events };
+    });
+  }
+
+  onDateClick(arg: DateClickArg) {
+    this.pendingDate = arg.dateStr;
+    this.meetingForm = { title: '', date: '', time: '', room_id: '', duration: '' };
+    this.openModal();
+  }
+
+ saveMeeting() {
+  const { title, date, time, room_id, duration } = this.meetingForm;
+
+  if (!title || !date || !room_id || !duration) return;
+
+  if (!this.currentUserId) {
+    alert("Please log in first");
+    return;
+  }
+
+  const newMeeting: CreateMeetingDto = {
+    title,
+    description: '',
+    date,
+    duration: Number(duration),   // ✅ taken from user input
+    room_id: Number(room_id),
+    user_id: this.currentUserId
+  };
+
+  this.meetingService.createMeeting(newMeeting).subscribe(() => {
+    this.closeModal();
+    this.loadMeetings();
+  });
+}
+
+
+  onEventClick(info: any) {
+    alert(`Meeting ID: ${info.event.id}\n${info.event.title}`);
+  }
+
+  // 🔹 Chat
   sendMessage() {
     const txt = this.chatInput?.trim();
     if (!txt) return;
@@ -49,27 +111,7 @@ export class DashboardAdminComponent {
     this.chatInput = '';
   }
 
-  // Calendar → open “Add Meeting” modal
-  onDateClick(arg: DateClickArg) {
-    this.pendingDate = arg.dateStr;
-    this.meetingForm = { title: '', date: arg.dateStr, time: '' };
-    this.openModal();
-  }
-
-  saveMeeting() {
-    const { title, date, time } = this.meetingForm;
-    if (!title || !date) return;
-
-    // Combine date+time if provided
-    const startISO = time ? new Date(`${date}T${time}`).toISOString()
-                          : new Date(date).toISOString();
-
-    this.events = [...this.events, { title, start: startISO }];
-    this.calendarOptions = { ...this.calendarOptions, events: this.events };
-    this.closeModal();
-  }
-
-  // Simple modal helpers (Bootstrap modal behavior without jQuery)
+  // 🔹 Modal controls
   openModal() {
     const el = document.getElementById('addMeetingModal');
     if (el) el.classList.add('show'), (el.style.display = 'block');

@@ -1,0 +1,71 @@
+<div class="container mt-3">
+  <h2>Minutes for Meeting {{ meetingId }}</h2>
+
+  <!-- Add new minute -->
+  <div class="card p-3 mb-3">
+    <h4>Add Minute</h4>
+    <form (ngSubmit)="addMinute()">
+      <div class="form-group">
+        <label>Status</label>
+        <select [(ngModel)]="newMinute.status" name="status" class="form-control">
+          <option value="draft">Draft</option>
+          <option value="submitted">Submitted</option>
+          <option value="approved">Approved</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Decision</label>
+        <textarea [(ngModel)]="newMinute.decision" name="decision" class="form-control"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Summary</label>
+        <textarea [(ngModel)]="newMinute.summary" name="summary" class="form-control"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Note</label>
+        <textarea [(ngModel)]="newMinute.note" name="note" class="form-control"></textarea>
+      </div>
+
+      <button class="btn btn-success mt-2" type="submit">Add Minute</button>
+    </form>
+  </div>
+
+  <hr />
+
+  <!-- List existing minutes -->
+  <div *ngFor="let m of minutes" class="card p-3 mb-2">
+    <form (ngSubmit)="updateMinute(m)">
+      <div class="form-group">
+        <label>Status</label>
+        <select [(ngModel)]="m.status" name="status{{m.id}}" class="form-control">
+          <option value="draft">Draft</option>
+          <option value="submitted">Submitted</option>
+          <option value="approved">Approved</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Decision</label>
+        <textarea [(ngModel)]="m.decision" name="decision{{m.id}}" class="form-control"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Summary</label>
+        <textarea [(ngModel)]="m.summary" name="summary{{m.id}}" class="form-control"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Note</label>
+        <textarea [(ngModel)]="m.note" name="note{{m.id}}" class="form-control"></textarea>
+      </div>
+
+      <div class="mt-2">
+        <button class="btn btn-primary btn-sm" type="submit">Save</button>
+        <button class="btn btn-danger btn-sm" type="button" (click)="deleteMinute(m.id)">Delete</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -17,6 +17,7 @@ import { RoleGuard } from './core/guards/role.guard';
 import { ProfileEditComponent } from './pages/profile-edit/profile-edit.component';
 import { EmployeeFormComponent } from './pages/employee-form/employee-form.component';
 import { BookMeetingComponent } from './pages/book-meeting/book-meeting.component';
+import {ViewMinutesComponent} from './pages/view-minutes/view-minutes.component';
 const routes: Routes = [
   // Public site
   {
@@ -39,15 +40,14 @@ const routes: Routes = [
     { path: 'dashboard', component: DashboardAdminComponent },
     { path: 'employees', component: EmployeesComponent },
     { path: 'rooms', component: RoomsComponent },
-    { path: 'meetings', component: MeetingsComponent },
+  // create later
     { path: 'profile', component: ProfileEditComponent },
     { path: 'employees/add', component: EmployeeFormComponent },
     { path: 'employees/edit/:id', component: EmployeeFormComponent },
      { path: 'book-meeting/:roomId', component: BookMeetingComponent },
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    { path: 'meetings/:id/minutes', component: ViewMinutesComponent },
     { path: 'meetings', component: MeetingsComponent },
-
-
   ]
 },
 {
