@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MinutesService } from '../../core/services/minutes.service';
-
+import { FileAttachmentService } from '../../core/services/file-attachment.service';
 @Component({
   selector: 'app-view-minutes',
   templateUrl: './view-minutes.component.html',
@@ -16,13 +16,47 @@ export class ViewMinutesComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private minutesService: MinutesService
+    private minutesService: MinutesService ,
+    private fileService: FileAttachmentService
   ) {}
 
-  ngOnInit() {
-    this.meetingId = Number(this.route.snapshot.paramMap.get('id'));
-    this.loadMinutes();
+
+  attachments: any[] = [];
+selectedFile: File | null = null;
+
+ngOnInit() {
+  this.meetingId = Number(this.route.snapshot.paramMap.get('id'));
+  this.loadMinutes();
+  this.loadAttachments();
+}
+
+loadAttachments() {
+  this.minutesService.getAttachments(this.meetingId).subscribe(data => {
+    this.attachments = data;
+  });
+}
+
+onFileSelected(event: any) {
+  this.selectedFile = event.target.files[0];
+}
+
+uploadAttachment() {
+  if (!this.selectedFile) return;
+
+  this.minutesService.uploadAttachment(this.meetingId, this.selectedFile).subscribe(() => {
+    this.loadAttachments();
+    this.selectedFile = null;
+  });
+}
+
+deleteAttachment(id: number) {
+  if (confirm('Delete this attachment?')) {
+    this.minutesService.deleteAttachment(id).subscribe(() => {
+      this.attachments = this.attachments.filter(a => a.id !== id);
+    });
   }
+}
+
 
   loadMinutes() {
     this.minutesService.getMinutesByMeeting(this.meetingId).subscribe((data: any[]) => {

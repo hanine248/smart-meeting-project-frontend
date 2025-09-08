@@ -24,40 +24,51 @@ export class BookMeetingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.roomId = Number(this.route.snapshot.paramMap.get('roomId'));
+  this.roomId = Number(this.route.snapshot.paramMap.get('roomId'));
 
-    // Get current user ID from auth service
-    this.authService.currentUser$.subscribe(user => {
-      this.currentUserId = user?.id || null;
-    });
+  this.authService.currentUser$.subscribe(user => {
+    this.currentUserId = user?.id || null;
+  });
 
-    this.form = this.fb.group({
-      title: ['', Validators.required],
-      description: [''],
-      target_audience: [''],
-      date: ['', Validators.required],
-      duration: ['', Validators.required],
-    });
-  }
+  this.form = this.fb.group({
+    title: ['', Validators.required],
+    description: [''],
+    target_audience: [''],
+    date: ['', Validators.required],
+    time: [''],                 // NEW (optional if you want)
+    link: [''],                 // NEW (optional)
+    duration: ['', Validators.required],
+  });
+}
+submit() {
+  if (this.form.valid && this.currentUserId) {
+    const meeting = {
+      ...this.form.value,
+      date: formatDate(this.form.value.date, 'yyyy-MM-dd', 'en-US'),
+      duration: Number(this.form.value.duration),
+      room_id: this.roomId,
+      user_id: this.currentUserId,
+      time: this.form.value.time || null,
+      link: this.form.value.link || null
+    };
 
-  submit() {
-    if (this.form.valid && this.currentUserId) {
-      const meeting = {
-        ...this.form.value,
-        date: formatDate(this.form.value.date, 'yyyy-MM-dd', 'en-US'),
-        duration: Number(this.form.value.duration),
-        room_id: this.roomId,
-        user_id: this.currentUserId // Use actual user ID instead of hardcoded 1
-      };
-
-      console.log("Submitting meeting:", meeting);
-
-      this.meetingService.createMeeting(meeting).subscribe(() => {
-        alert('Meeting booked successfully!');
+    this.meetingService.createMeeting(meeting).subscribe({
+      next: () => {
+        alert('✅ Meeting booked successfully!');
         this.router.navigate(['admin/meetings']);
-      });
-    } else if (!this.currentUserId) {
-      alert('Please log in to book a meeting');
-    }
+      },
+      error: (err) => {
+        if (err.status === 409) {
+          alert('❌ This room is already booked during this time slot.');
+        } else {
+          alert('⚠️ An error occurred while booking the meeting.');
+        }
+      }
+    });
+  } else if (!this.currentUserId) {
+    alert('Please log in to book a meeting');
   }
+}
+
+
 }

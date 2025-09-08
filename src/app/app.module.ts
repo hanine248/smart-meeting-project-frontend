@@ -26,6 +26,13 @@ import { BookMeetingComponent } from './pages/book-meeting/book-meeting.componen
 import { EmployeesComponent } from './pages/employees/employees.component';
 import { MeetingsComponent } from './pages/meetings/meetings.component';
 import {ViewMinutesComponent} from './pages/view-minutes/view-minutes.component';
+import{ EmployeeMeetingsComponent} from './pages/employee-meetings/employee-meetings.component';
+import{MeetingAttendeesComponent}  from './pages/meeting-attendees/meeting-attendees.component';
+import{TasksComponent} from './pages/tasks/tasks.component';
+import{BookingListComponent} from './pages/booking-list/booking-list.component';
+import {MeetingDetailsComponent} from './pages/meeting-details/meeting-details.component';
+import { JoinedMeetingsComponent} from './pages/joined-meetings/joined-meetings.component';
+import { MyTasksComponent} from  './pages/my-tasks/my-tasks.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,8 +51,15 @@ import {ViewMinutesComponent} from './pages/view-minutes/view-minutes.component'
     BookMeetingComponent,
     MeetingsComponent ,
     ViewMinutesComponent,
+    EmployeeMeetingsComponent,
+    MeetingAttendeesComponent,
     // ✅ Add EmployeeComponent here
-    EmployeesComponent
+    EmployeesComponent,
+    TasksComponent ,
+    BookingListComponent ,
+    MeetingDetailsComponent,
+    JoinedMeetingsComponent,
+     MyTasksComponent ,
   ],
   imports: [
     HttpClientModule,

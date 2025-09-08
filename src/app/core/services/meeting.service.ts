@@ -6,12 +6,15 @@ export interface Meeting {
   id: number;
   title: string;
   description?: string;
-  date: string;        // e.g. "2025-09-01"
+  date: string;  
+   time?: string | null;  // "HH:mm"
+  link?: string | null;        // e.g. "2025-09-01"
   duration: number;    // in minutes
   room_id: number;
   user_id: number;
   created_at?: string;
   updated_at?: string;
+    attendees?: { user_id: number; meeting_id: number }[];
 }
 
 // ✅ For POST requests → no id, created_at, updated_at
@@ -49,5 +52,30 @@ export class MeetingService {
   deleteMeeting(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+getMeetingById(id: number) {
+  return this.http.get(`${this.apiUrl}/${id}`);
+}
+
+addAttendee(meetingId: number, userId: number) {
+  return this.http.post(`${this.apiUrl}/${meetingId}/attendees`, { user_id: userId });
+}
+ 
+updateAttendee(attendeeId: number, data: any) {
+  return this.http.put(`http://127.0.0.1:8000/api/meetingattendees/${attendeeId}`, data);
+}
+
+deleteAttendee(attendeeId: number) {
+  return this.http.delete(`http://127.0.0.1:8000/api/meetingattendees/${attendeeId}`);
+}
+subscribe(meetingId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/subscribe`, { meeting_id: meetingId });
+  }
+
+  unsubscribe(meetingId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/unsubscribe`, { meeting_id: meetingId });
+  }
+
+
+
 }
 

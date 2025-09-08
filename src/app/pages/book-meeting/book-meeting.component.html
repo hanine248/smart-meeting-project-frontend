@@ -15,6 +15,15 @@
 
   <label>Duration (minutes):</label>
   <input type="number" formControlName="duration" class="form-control" required />
+  <!-- inside book-meeting form -->
+
+  <label>Time</label>
+  <input type="time" class="form-control" formControlName="time">
+
+
+  <label>Link (optional)</label>
+  <input type="url" class="form-control" formControlName="link" placeholder="https://...">
+
 
   <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Book</button>
 </form>

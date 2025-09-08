@@ -35,31 +35,52 @@ export class MeetingsComponent implements OnInit {
     });
   }
 
-  startEdit(meeting: any) {
-    // make a copy so we don’t edit directly
-    this.editingMeeting = { ...meeting, duration: this.convertDuration(meeting.duration) };
-  }
+startEdit(meeting: any) {
+  this.editingMeeting = {
+    ...meeting,
+    duration: this.convertDuration(meeting.duration),
+    // If backend gives "08:30:00", slice it down to "08:30"
+    time: meeting.time ? meeting.time.substring(0, 5) : null,
+    link: meeting.link || null
+  };
+}
 
-  cancelEdit() {
+ cancelEdit() {
     this.editingMeeting = null;
   }
 
 saveEdit() {
-  if (this.editingMeeting) {
-    const updatedMeeting = {
-      ...this.editingMeeting,
-      date: formatDate(this.editingMeeting.date, 'yyyy-MM-dd', 'en-US'),
-      duration: Number(this.editingMeeting.duration),
-      room_id: Number(this.editingMeeting.room_id) // ✅ ensure numeric
-    };
+  if (!this.editingMeeting) return;
 
-    this.meetingService.updateMeeting(this.editingMeeting.id, updatedMeeting).subscribe(() => {
+  const updated = {
+    ...this.editingMeeting,
+    date: formatDate(this.editingMeeting.date, 'yyyy-MM-dd', 'en-US'),
+    duration: Number(this.editingMeeting.duration),
+    room_id: Number(this.editingMeeting.room_id),
+    time: this.editingMeeting.time || null,
+    link: this.editingMeeting.link || null
+  };
+
+  this.meetingService.updateMeeting(this.editingMeeting.id, updated).subscribe({
+    next: () => {
+      alert('✅ Meeting updated successfully!');
       this.loadMeetings();
       this.editingMeeting = null;
-    });
-  }
+    },
+    error: (err) => {
+      if (err.status === 409) {
+        alert('❌ This room is already booked during this time slot.');
+      } else {
+        alert('⚠️ An error occurred while updating the meeting.');
+      }
+    }
+  });
 }
 
+
+
+
+ 
 
   deleteMeeting(id: number) {
     if (confirm('Are you sure you want to delete this meeting?')) {

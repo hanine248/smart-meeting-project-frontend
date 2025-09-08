@@ -1,0 +1,34 @@
+<div class="container mt-4">
+  <h2>Bookings for Room {{ roomId }}</h2>
+
+  <button class="btn btn-success mb-3" (click)="goToBookMeeting()">
+    Book a New Meeting
+  </button>
+
+  <div *ngIf="loading">Loading...</div>
+
+  <table *ngIf="!loading && meetings.length > 0" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Meeting ID</th>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Duration (mins)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of meetings">
+        <td>{{ m.id }}</td>
+        <td>{{ m.title }}</td>
+        <td>{{ m.date }}</td>
+        <td>{{ m.time }}</td>
+        <td>{{ m.duration }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && meetings.length === 0" class="alert alert-info">
+    No bookings yet for this room.
+  </div>
+</div>

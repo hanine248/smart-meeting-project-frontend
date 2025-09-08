@@ -1,0 +1,37 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Available Meetings</h2>
+
+  <div class="row">
+    <div class="col-md-4 mb-3" *ngFor="let m of meetings">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ m.title }} <small class="text-muted">#{{m.id}}</small></h5>
+          <p class="card-text">
+            <strong>Date:</strong> {{ m.date }} <br>
+            <strong>Time:</strong> {{ m.time || '—' }} <br>
+            <strong>Duration:</strong> {{ m.duration }} minutes <br>
+            <strong>Room:</strong> {{ m.room_id }}
+          </p>
+
+          <!-- Subscribe / Unsubscribe -->
+          <button
+            class="btn w-100"
+            [ngClass]="m.isSubscribed ? 'btn-danger' : 'btn-success'"
+            (click)="toggleSubscription(m)">
+            {{ m.isSubscribed ? 'Unsubscribe' : 'Subscribe' }}
+          </button>
+
+          <!-- View Details (shows only when subscribed) -->
+          <button
+            *ngIf="m.isSubscribed"
+            class="btn btn-outline-primary mt-2 w-100"
+            [routerLink]="['/emp/meetings', m.id]">
+            View Details
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="text-center mt-3">Loading meetings…</div>
+</div>

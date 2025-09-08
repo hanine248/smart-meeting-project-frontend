@@ -1,17 +1,24 @@
 <thead class="table-dark">
   <tr>
+    <th>ID</th> <!-- NEW -->
     <th>Title</th>
     <th>Description</th>
     <th>Date</th>
+    <th>Time</th>        <!-- NEW -->
+    <th>Link</th>        <!-- NEW -->
     <th>Duration (mins)</th>
-    <th>Room ID</th> <!-- ✅ room_id shown -->
+    <th>Room ID</th>
     <th>Actions</th>
-    <th>Add Minutes</th>
+    <th>Tasks</th>
     <th>View Minutes</th>
+    <th>View Attendees</th>
   </tr>
 </thead>
 <tbody>
   <tr *ngFor="let meeting of meetings">
+    <!-- ID -->
+    <td>#{{ meeting.id }}</td>
+
     <!-- Title -->
     <td>
       <input *ngIf="editingMeeting?.id === meeting.id"
@@ -37,6 +44,29 @@
       <span *ngIf="editingMeeting?.id !== meeting.id">{{ meeting.date }}</span>
     </td>
 
+    <!-- Time -->
+    <td>
+      <input *ngIf="editingMeeting?.id === meeting.id"
+             type="time"
+             [(ngModel)]="editingMeeting.time"
+             class="form-control" />
+      <span *ngIf="editingMeeting?.id !== meeting.id">{{ meeting.time || '—' }}</span>
+    </td>
+
+    <!-- Link -->
+    <td>
+      <input *ngIf="editingMeeting?.id === meeting.id"
+             type="url"
+             [(ngModel)]="editingMeeting.link"
+             class="form-control" placeholder="https://..." />
+      <ng-container *ngIf="editingMeeting?.id !== meeting.id">
+        <a *ngIf="meeting.link" [href]="meeting.link" target="_blank" rel="noopener">
+          Open
+        </a>
+        <span *ngIf="!meeting.link">—</span>
+      </ng-container>
+    </td>
+
     <!-- Duration -->
     <td>
       <input *ngIf="editingMeeting?.id === meeting.id"
@@ -46,7 +76,7 @@
       <span *ngIf="editingMeeting?.id !== meeting.id">{{ meeting.duration }}</span>
     </td>
 
-    <!-- ✅ Room ID -->
+    <!-- Room ID -->
     <td>
       <input *ngIf="editingMeeting?.id === meeting.id"
              type="number"
@@ -81,20 +111,28 @@
       </button>
     </td>
 
-    <!-- Add Minutes -->
-<td>
-  <button class="btn btn-sm btn-warning"
-          [routerLink]="['/admin/meetings', meeting.id, 'minutes/add']">
-    Add Minutes
-  </button>
-</td>
+    <!-- Tasks -->
+    <td>
+      <button class="btn btn-sm btn-warning"
+              [routerLink]="['/admin/meetings', meeting.id, 'tasks']">
+        Tasks
+      </button>
+    </td>
 
     <!-- View Minutes -->
-   <td>
-  <button class="btn btn-sm btn-info"
-          [routerLink]="['/admin/meetings', meeting.id, 'minutes']">
-    View Minutes
-  </button>
-</td>
+    <td>
+      <button class="btn btn-sm btn-info"
+              [routerLink]="['/admin/meetings', meeting.id, 'minutes']">
+        View Minutes
+      </button>
+    </td>
+
+    <!-- View Attendees -->
+    <td>
+      <button class="btn btn-sm btn-outline-dark"
+              [routerLink]="['/admin/meetings', meeting.id, 'attendees']">
+        View Attendees
+      </button>
+    </td>
   </tr>
 </tbody>

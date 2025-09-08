@@ -1,0 +1,56 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Attendees for "{{ meeting?.title }}"</h2>
+
+  <!-- Add attendee form -->
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Add Attendee</h5>
+      <div class="input-group">
+        <input
+          type="number"
+          class="form-control"
+          placeholder="Enter User ID"
+          [(ngModel)]="newUserId"
+        />
+        <button class="btn btn-primary" (click)="addAttendee()">Add</button>
+      </div>
+    </div>
+  </div>
+
+<div class="container mt-4">
+  <h2 class="mb-3">Attendees for "{{ meeting?.title }}"</h2>
+
+  <div *ngIf="attendees.length === 0" class="alert alert-warning">
+    No attendees yet.
+  </div>
+
+  <table class="table table-bordered text-center">
+    <thead class="table-dark">
+      <tr>
+        <th>User</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let attendee of attendees">
+        <td>{{ attendee.user?.name }}</td>
+        <td>{{ attendee.user?.email }}</td>
+        <td>
+          <select [(ngModel)]="attendee.status"
+                  (change)="updateStatus(attendee)"
+                  class="form-select">
+            <option value="attended">Attended</option>
+            <option value="absent">Absent</option>
+          </select>
+        </td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="deleteAttendee(attendee)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,1 +1,52 @@
-<p>dashboard-employee works!</p>
+<div class="container-fluid">
+  <h3>Welcome, {{ user?.name }}</h3>
+
+  <div class="row">
+    <!-- Profile -->
+    <div class="col-md-3">
+      <div class="info-box bg-info">
+        <span class="info-box-icon"><i class="fas fa-user"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Profile</span>
+          <a routerLink="/emp/profile" class="btn btn-light btn-sm">Edit</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Meetings -->
+    <div class="col-md-3">
+      <div class="info-box bg-success">
+        <span class="info-box-icon"><i class="fas fa-calendar"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">My Meetings</span>
+          <span class="info-box-number">{{ myMeetingsCount }}</span>
+          <a routerLink="/emp/meetings" class="btn btn-light btn-sm">View</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Joined Meetings -->
+    <div class="col-md-3">
+      <div class="info-box bg-primary">
+        <span class="info-box-icon"><i class="fas fa-users"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Joined Meetings</span>
+          <span class="info-box-number">{{ joinedMeetingsCount }}</span>
+          <a routerLink="/emp/joined-meetings" class="btn btn-light btn-sm">View</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Tasks -->
+    <div class="col-md-3">
+      <div class="info-box bg-warning">
+        <span class="info-box-icon"><i class="fas fa-tasks"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">My Tasks</span>
+          <span class="info-box-number">{{ myTasksCount }}</span>
+          <a routerLink="/emp/tasks" class="btn btn-light btn-sm">View</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

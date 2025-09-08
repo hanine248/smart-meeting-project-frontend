@@ -29,4 +29,20 @@ export class MinutesService {
   deleteMinute(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/minutes/${id}`);
   }
+  uploadAttachment(meetingId: number, file: File) {
+  const formData = new FormData();
+  formData.append('meeting_id', meetingId.toString());
+  formData.append('file', file);
+
+  return this.http.post(`${this.apiUrl}/meetings/${meetingId}/attachments`, formData);
+}
+
+getAttachments(meetingId: number) {
+  return this.http.get<any[]>(`${this.apiUrl}/meetings/${meetingId}/attachments`);
+}
+
+deleteAttachment(id: number) {
+  return this.http.delete(`${this.apiUrl}/attachments/${id}`);
+}
+
 }

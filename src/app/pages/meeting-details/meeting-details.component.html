@@ -1,0 +1,60 @@
+<div class="container mt-4" *ngIf="meeting">
+  <h2>{{ meeting.title }}</h2>
+  <p>
+    <strong>Date:</strong> {{ meeting.date }} <br>
+    <strong>Time:</strong> {{ meeting.time }} <br>
+    <strong>Duration:</strong> {{ meeting.duration }} minutes <br>
+    <strong>Room:</strong> {{ meeting.room_id }} <br>
+    <strong>Link:</strong>
+    <a *ngIf="meeting.link" [href]="meeting.link" target="_blank">{{ meeting.link }}</a>
+  </p>
+
+  <!-- Minutes -->
+  <div class="mt-4">
+    <h4>Minutes</h4>
+    <div *ngIf="minutes.length; else noMinutes">
+      <ul class="list-group">
+        <li *ngFor="let m of minutes" class="list-group-item">
+          <strong>Status:</strong> {{ m.status }} <br>
+          <strong>Decision:</strong> {{ m.decision }} <br>
+          <strong>Summary:</strong> {{ m.summary }} <br>
+          <strong>Note:</strong> {{ m.note }}
+        </li>
+      </ul>
+    </div>
+    <ng-template #noMinutes>
+      <p class="text-muted">No minutes available.</p>
+    </ng-template>
+  </div>
+
+  <!-- Attachments -->
+  <div class="mt-4">
+    <h4>Attachments</h4>
+    <div *ngIf="attachments.length; else noFiles">
+      <ul class="list-group">
+        <li *ngFor="let f of attachments" class="list-group-item">
+          <a [href]="'http://127.0.0.1:8000/storage/' + f.path" target="_blank">{{ f.path }}</a>
+        </li>
+      </ul>
+    </div>
+    <ng-template #noFiles>
+      <p class="text-muted">No attachments available.</p>
+    </ng-template>
+  </div>
+
+  <!-- My Tasks -->
+  <div class="mt-4">
+    <h4>My Tasks</h4>
+    <div *ngIf="myTasks.length; else noTasks">
+      <ul class="list-group">
+        <li *ngFor="let t of myTasks" class="list-group-item">
+          <strong>Description:</strong> {{ t.description }} <br>
+          <strong>Due Date:</strong> {{ t.due_date }}
+        </li>
+      </ul>
+    </div>
+    <ng-template #noTasks>
+      <p class="text-muted">No tasks assigned to you.</p>
+    </ng-template>
+  </div>
+</div>

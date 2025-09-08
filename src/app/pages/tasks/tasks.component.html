@@ -1,0 +1,19 @@
+<h2>Tasks for Meeting {{ meetingId }}</h2>
+
+<!-- Add New Task -->
+<div>
+  <input [(ngModel)]="newTask.description" placeholder="Task description">
+  <input [(ngModel)]="newTask.due_date" type="date">
+  <input [(ngModel)]="newTask.user_id" placeholder="Assign to User ID">
+  <button (click)="addTask()">Add Task</button>
+</div>
+
+<!-- Task List -->
+<ul>
+  <li *ngFor="let task of tasks">
+    <input [(ngModel)]="task.description" (blur)="updateTask(task)">
+    <input [(ngModel)]="task.due_date" type="date" (change)="updateTask(task)">
+    <span>Assigned to User {{ task.user_id }}</span>
+    <button (click)="deleteTask(task.id)">Delete</button>
+  </li>
+</ul>

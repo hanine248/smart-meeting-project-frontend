@@ -61,7 +61,11 @@
           <!-- <button class="btn btn-primary btn-sm" (click)="editRoom(room)">Edit</button> 
            <button class="btn btn-danger btn-sm" (click)="deleteRoom(room.id)">Delete</button> --> 
           <td>
-  <button (click)="bookRoom(room.id)">Book</button>
+  <button class="btn btn-primary btn-sm"
+        [routerLink]="['/admin/rooms', room.id, 'bookings']">
+  Manage Bookings
+</button>
+
   <button (click)="editRoom(room)">Edit</button>
   <button (click)="deleteRoom(room.id)">Delete</button>
 </td>

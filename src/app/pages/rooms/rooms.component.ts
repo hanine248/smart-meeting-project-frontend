@@ -7,6 +7,7 @@ import { RoomService, Room } from '../../core/services/room.service';
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.css']
 })
+
 export class RoomsComponent implements OnInit {
   rooms: Room[] = [];
   editingRoom: Room | null = null;
