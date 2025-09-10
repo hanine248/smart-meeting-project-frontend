@@ -33,6 +33,9 @@ import{BookingListComponent} from './pages/booking-list/booking-list.component';
 import {MeetingDetailsComponent} from './pages/meeting-details/meeting-details.component';
 import { JoinedMeetingsComponent} from './pages/joined-meetings/joined-meetings.component';
 import { MyTasksComponent} from  './pages/my-tasks/my-tasks.component';
+import{EmployeeRoomsComponent} from './pages/employee-rooms/employee-rooms.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +63,7 @@ import { MyTasksComponent} from  './pages/my-tasks/my-tasks.component';
     MeetingDetailsComponent,
     JoinedMeetingsComponent,
      MyTasksComponent ,
+     EmployeeRoomsComponent,
   ],
   imports: [
     HttpClientModule,

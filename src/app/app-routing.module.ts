@@ -25,6 +25,10 @@ import{BookingListComponent} from './pages/booking-list/booking-list.component';
 import {MeetingDetailsComponent} from './pages/meeting-details/meeting-details.component';
 import { JoinedMeetingsComponent} from './pages/joined-meetings/joined-meetings.component';
 import { MyTasksComponent} from  './pages/my-tasks/my-tasks.component';
+import{EmployeeRoomsComponent} from './pages/employee-rooms/employee-rooms.component';
+
+
+
 const routes: Routes = [
   // Public site
   {
@@ -70,13 +74,13 @@ const routes: Routes = [
        { path: 'profile', component: ProfileEditComponent },   // ✅ employee edits only own profile
     { path: 'meetings', component: EmployeeMeetingsComponent },
      // ✅ view meetings
-    { path: 'rooms', component: RoomsComponent }, 
+    {path: 'rooms',component: EmployeeRoomsComponent},
    { path: 'employee-form', component: EmployeeFormComponent },         // Add employee
   { path: 'employee-form/:id', component: EmployeeFormComponent },
   { path: 'meetings', component: EmployeeMeetingsComponent },
 { path: 'meetings/:id', component: MeetingDetailsComponent },
-{ path: 'emp/joined-meetings',component: JoinedMeetingsComponent},
-{  path: 'emp/tasks',component: MyTasksComponent} ,
+{ path: 'joined-meetings',component: JoinedMeetingsComponent},
+{  path: 'my-tasks',component: MyTasksComponent} ,
      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   ]
 },

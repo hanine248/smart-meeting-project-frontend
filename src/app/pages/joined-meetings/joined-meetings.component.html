@@ -1,32 +1,22 @@
-<div class="container-fluid">
-  <h3>Joined Meetings</h3>
-
-  <div *ngIf="loading">Loading...</div>
-
-  <table *ngIf="!loading && joinedMeetings.length > 0" class="table table-striped">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Organizer</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let meeting of joinedMeetings">
-        <td>{{ meeting.title }}</td>
-        <td>{{ meeting.date | date }}</td>
-        <td>{{ meeting.start_time }} - {{ meeting.end_time }}</td>
-        <td>{{ meeting.organizer?.name }}</td>
-        <td>
-          <a [routerLink]="['/emp/meetings', meeting.id]" class="btn btn-sm btn-primary">View</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div *ngIf="!loading && joinedMeetings.length === 0" class="alert alert-info">
-    You haven’t joined any meetings yet.
+<div class="container mt-4">
+  <h4>Joined Meetings</h4>
+  <div *ngIf="joinedMeetings.length; else noJoined">
+    <ul class="list-group">
+      <li
+        *ngFor="let m of joinedMeetings"
+        class="list-group-item d-flex justify-content-between"
+      >
+        {{ m.title }} - {{ m.date }}
+        <a
+          class="btn btn-sm btn-outline-primary"
+          [routerLink]="['/emp/meetings', m.id]"
+        >
+          View
+        </a>
+      </li>
+    </ul>
   </div>
+  <ng-template #noJoined>
+    <p class="text-muted">You haven't joined any meetings yet.</p>
+  </ng-template>
 </div>

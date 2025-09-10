@@ -7,22 +7,35 @@ import { RoomService, Room } from '../../core/services/room.service';
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.css']
 })
-
 export class RoomsComponent implements OnInit {
   rooms: Room[] = [];
+  searchId: number | null = null;
+  filteredRooms: Room[] = [];
   editingRoom: Room | null = null;
   newRoom: Partial<Room> = { status: '', location: '', feature: '', capacity: 0 };
 
   constructor(private roomService: RoomService, private router: Router) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.loadRooms();
   }
 
   loadRooms(): void {
     this.roomService.getRooms().subscribe(data => {
       this.rooms = data;
+      this.filteredRooms = [...this.rooms]; // keep filteredRooms in sync
     });
+  }
+
+  filterById(): void {
+    if (this.searchId) {
+      this.filteredRooms = this.rooms.filter(r => r.id === this.searchId);
+    }
+  }
+
+  resetFilter(): void {
+    this.searchId = null;
+    this.filteredRooms = [...this.rooms];
   }
 
   addRoom(): void {
@@ -53,13 +66,10 @@ export class RoomsComponent implements OnInit {
     }
   }
 
-bookRoom(roomId: number) {
-this.router.navigate(['admin/book-meeting', roomId]);
-
-
+  bookRoom(roomId: number): void {
+    this.router.navigate(['admin/book-meeting', roomId]);
+  }
 }
-}
-
 
 
 

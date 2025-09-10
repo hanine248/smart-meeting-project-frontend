@@ -11,31 +11,34 @@ export class EmployeesComponent implements OnInit {
   employees: Employee[] = [];
   loading = true;
   error = '';
+ filteredEmployees: any[] = [];
+  searchId: number | null = null;
 
   constructor(
     private employeeService: EmployeeService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+   ngOnInit() {
     this.loadEmployees();
   }
 
-  loadEmployees(): void {
-    this.employeeService.getEmployees().subscribe({
-      next: (data) => {
-        console.log('Employees received:', data);
-        this.employees = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error loading employees:', err);
-        this.error = 'Failed to load employees';
-        this.loading = false;
-      }
+  loadEmployees() {
+    this.employeeService.getEmployees().subscribe((data: any[]) => {
+      this.employees = data;
+      this.filteredEmployees = data;
     });
   }
 
+filterEmployees() {
+  if (this.searchId != null && this.searchId > 0) {
+    this.filteredEmployees = this.employees.filter(emp => emp.id === Number(this.searchId));
+  } else {
+    this.filteredEmployees = [...this.employees];
+  }
+}
+
+  
 // src/app/pages/employees/employees.component.ts
 addEmployee(): void {
   this.router.navigate(['/admin/employees/add']);

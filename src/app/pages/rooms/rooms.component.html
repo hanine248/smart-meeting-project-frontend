@@ -1,83 +1,118 @@
 <div class="container mt-4">
-  <h2>Rooms</h2>
+  <h2 class="mb-3">Rooms</h2>
 
   <!-- Add Room Form -->
-  <div class="card p-3 mb-4">
-    <h5>Add Room</h5>
-    <form (ngSubmit)="addRoom()">
-      <div class="row mb-2">
-        <div class="col">
-          <input type="text" class="form-control" placeholder="Status" [(ngModel)]="newRoom.status" name="status" required>
+  <div class="card card-primary card-outline mb-4">
+    <div class="card-header">
+      <h5 class="card-title">Add Room</h5>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="addRoom()">
+        <div class="row g-2">
+          <div class="col-md-2">
+            <input type="text" class="form-control" placeholder="Status" [(ngModel)]="newRoom.status" name="status" required>
+          </div>
+          <div class="col-md-2">
+            <input type="text" class="form-control" placeholder="Location" [(ngModel)]="newRoom.location" name="location" required>
+          </div>
+          <div class="col-md-2">
+            <input type="text" class="form-control" placeholder="Feature" [(ngModel)]="newRoom.feature" name="feature">
+          </div>
+          <div class="col-md-2">
+            <input type="number" class="form-control" placeholder="Capacity" [(ngModel)]="newRoom.capacity" name="capacity" required>
+          </div>
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-success w-100">
+              <i class="fas fa-plus"></i> Add
+            </button>
+          </div>
         </div>
-        <div class="col">
-          <input type="text" class="form-control" placeholder="Location" [(ngModel)]="newRoom.location" name="location" required>
-        </div>
-        <div class="col">
-          <input type="text" class="form-control" placeholder="Feature" [(ngModel)]="newRoom.feature" name="feature">
-        </div>
-        <div class="col">
-          <input type="number" class="form-control" placeholder="Capacity" [(ngModel)]="newRoom.capacity" name="capacity" required>
-        </div>
-        <div class="col">
-          <button type="submit" class="btn btn-success">Add</button>
-        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Search by ID -->
+  <div class="card card-info card-outline mb-3">
+    <div class="card-header">
+      <h6 class="card-title mb-0">Search Room by ID</h6>
+    </div>
+    <div class="card-body">
+      <div class="input-group">
+        <input type="number" class="form-control" placeholder="Enter Room ID" [(ngModel)]="searchId" name="searchId">
+        <button class="btn btn-primary" type="button" (click)="filterById()">
+          <i class="fas fa-search"></i> Search
+        </button>
+        <button class="btn btn-secondary" type="button" (click)="resetFilter()">
+          <i class="fas fa-undo"></i> Reset
+        </button>
       </div>
-    </form>
+    </div>
   </div>
 
   <!-- Rooms Table -->
- <table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Status</th>
-      <th>Location</th>
-      <th>Feature</th>
-      <th>Capacity</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let room of rooms">
-      <td>{{ room.id }}</td>
-      <td>
-        <span *ngIf="editingRoom?.id !== room.id">{{ room.status }}</span>
-        <input *ngIf="editingRoom?.id === room.id" [(ngModel)]="editingRoom!.status" class="form-control">
-      </td>
-      <td>
-        <span *ngIf="editingRoom?.id !== room.id">{{ room.location }}</span>
-        <input *ngIf="editingRoom?.id === room.id" [(ngModel)]="editingRoom!.location" class="form-control">
-      </td>
-      <td>
-        <span *ngIf="editingRoom?.id !== room.id">{{ room.feature }}</span>
-        <input *ngIf="editingRoom?.id === room.id" [(ngModel)]="editingRoom!.feature" class="form-control">
-      </td>
-      <td>
-        <span *ngIf="editingRoom?.id !== room.id">{{ room.capacity }}</span>
-        <input *ngIf="editingRoom?.id === room.id" [(ngModel)]="editingRoom!.capacity" class="form-control">
-      </td>
-      <td>
-        <div *ngIf="editingRoom?.id !== room.id">
-          <!-- <button class="btn btn-primary btn-sm" (click)="editRoom(room)">Edit</button> 
-           <button class="btn btn-danger btn-sm" (click)="deleteRoom(room.id)">Delete</button> --> 
-          <td>
-  <button class="btn btn-primary btn-sm"
-        [routerLink]="['/admin/rooms', room.id, 'bookings']">
-  Manage Bookings
-</button>
-
-  <button (click)="editRoom(room)">Edit</button>
-  <button (click)="deleteRoom(room.id)">Delete</button>
-</td>
-
-        </div>
-        <div *ngIf="editingRoom?.id === room.id">
-          <button class="btn btn-success btn-sm" (click)="updateRoom()">Save</button>
-          <button class="btn btn-secondary btn-sm" (click)="editingRoom = null">Cancel</button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+  <div class="card card-outline card-secondary">
+    <div class="card-header">
+      <h5 class="card-title">Rooms List</h5>
+    </div>
+    <div class="card-body p-0">
+      <table class="table table-bordered table-striped mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Location</th>
+            <th>Feature</th>
+            <th>Capacity</th>
+            <th style="width: 200px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let room of filteredRooms">
+            <td>{{ room.id }}</td>
+            <td>
+              <span *ngIf="editingRoom?.id !== room.id">{{ room.status }}</span>
+              <input *ngIf="editingRoom?.id === room.id" [(ngModel)]="editingRoom!.status" class="form-control">
+            </td>
+            <td>
+              <span *ngIf="editingRoom?.id !== room.id">{{ room.location }}</span>
+              <input *ngIf="editingRoom?.id === room.id" [(ngModel)]="editingRoom!.location" class="form-control">
+            </td>
+            <td>
+              <span *ngIf="editingRoom?.id !== room.id">{{ room.feature }}</span>
+              <input *ngIf="editingRoom?.id === room.id" [(ngModel)]="editingRoom!.feature" class="form-control">
+            </td>
+            <td>
+              <span *ngIf="editingRoom?.id !== room.id">{{ room.capacity }}</span>
+              <input *ngIf="editingRoom?.id === room.id" [(ngModel)]="editingRoom!.capacity" class="form-control">
+            </td>
+            <td>
+              <div *ngIf="editingRoom?.id !== room.id">
+                <button class="btn btn-primary btn-sm me-1"
+                        [routerLink]="['/admin/rooms', room.id, 'bookings']">
+                  <i class="fas fa-calendar-alt"></i> Manage
+                </button>
+                <button class="btn btn-warning btn-sm me-1" (click)="editRoom(room)">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="deleteRoom(room.id)">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>
+              <div *ngIf="editingRoom?.id === room.id">
+                <button class="btn btn-success btn-sm me-1" (click)="updateRoom()">
+                  <i class="fas fa-save"></i> Save
+                </button>
+                <button class="btn btn-secondary btn-sm" (click)="editingRoom = null">
+                  <i class="fas fa-times"></i> Cancel
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="filteredRooms.length === 0">
+            <td colspan="6" class="text-center text-muted">No rooms found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

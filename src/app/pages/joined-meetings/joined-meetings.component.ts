@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MeetingService } from '../../core/services/meeting.service';
 import { AuthService } from '../../core/services/auth.service';
-import { MeetingService, Meeting } from '../../core/services/meeting.service';
 
 @Component({
   selector: 'app-joined-meetings',
@@ -9,12 +9,11 @@ import { MeetingService, Meeting } from '../../core/services/meeting.service';
 })
 export class JoinedMeetingsComponent implements OnInit {
   user: any = null;
-  joinedMeetings: Meeting[] = [];
-  loading = true;
+  joinedMeetings: any[] = [];
 
   constructor(
-    private authService: AuthService,
-    private meetingService: MeetingService
+    private meetingService: MeetingService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -29,9 +28,8 @@ export class JoinedMeetingsComponent implements OnInit {
   loadJoinedMeetings(userId: number) {
     this.meetingService.getMeetings().subscribe(meetings => {
       this.joinedMeetings = meetings.filter(m =>
-        m.attendees?.some(a => a.user_id === userId)
+        m.attendees?.some((a: any) => a.user_id === userId)
       );
-      this.loading = false;
     });
   }
 }

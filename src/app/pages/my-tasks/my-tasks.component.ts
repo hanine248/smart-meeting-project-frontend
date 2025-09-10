@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TaskService } from '../../core/services/task.service';
 import { AuthService } from '../../core/services/auth.service';
-import { TaskService, Task } from '../../core/services/task.service';
 
 @Component({
   selector: 'app-my-tasks',
@@ -9,27 +9,25 @@ import { TaskService, Task } from '../../core/services/task.service';
 })
 export class MyTasksComponent implements OnInit {
   user: any = null;
-  myTasks: Task[] = [];
-  loading = true;
+  myTasks: any[] = [];
 
   constructor(
-    private authService: AuthService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(u => {
       this.user = u;
       if (u && u.id !== undefined) {
-        this.loadTasks(u.id);
+        this.loadMyTasks(u.id);
       }
     });
   }
 
-  loadTasks(userId: number) {
+  loadMyTasks(userId: number) {
     this.taskService.getTasks().subscribe(tasks => {
       this.myTasks = tasks.filter(t => t.user_id === userId);
-      this.loading = false;
     });
   }
 }
